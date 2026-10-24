@@ -90,7 +90,10 @@ export const PeriodicTablePage: React.FC = () => {
           totalElements={elements.length}
           matchedCount={matchedCount}
         />
+      </Container>
 
+      {/* Full-viewport width container so scroll bar goes all the way edge-to-edge */}
+      <Box sx={{ width: "100%" }}>
         <PeriodicGrid
           elements={elements}
           selectedElement={selectedElement}
@@ -103,7 +106,7 @@ export const PeriodicTablePage: React.FC = () => {
           onCloseDetail={handleCloseModal}
           onSelectElementByNumber={handleSelectElementByNumber}
         />
-      </Container>
+      </Box>
     </Box>
   );
 };

@@ -42,48 +42,48 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
           gridColumn: gridColumn ?? element.xpos,
           gridRow: gridRow ?? element.ypos + 1,
           width: "100%",
-          minWidth: { xs: 58, sm: 66, md: 72 },
-          height: { xs: 68, sm: 76, md: 82 },
+          minWidth: { xs: 50, sm: 56, md: 62 },
+          height: { xs: 58, sm: 64, md: 70 },
           display: "flex",
           flexDirection: "column",
           alignItems: "stretch",
           justifyContent: "space-between",
-          p: "4px 6px",
-          borderRadius: "8px",
+          p: "3px 5px",
+          borderRadius: "6px",
           background: isSelected
-            ? `linear-gradient(135deg, ${categoryInfo.color}44 0%, ${categoryInfo.color}22 100%)`
+            ? `linear-gradient(135deg, ${categoryInfo.color}38 0%, ${categoryInfo.color}18 100%)`
             : categoryInfo.bgGradient,
           border: `1px solid ${
             isSelected
               ? categoryInfo.color
               : isMatch
-                ? `${categoryInfo.borderHover}bb`
-                : "rgba(255, 255, 255, 0.08)"
+                ? `${categoryInfo.borderHover}aa`
+                : "rgba(255, 255, 255, 0.07)"
           }`,
-          borderTop: `3px solid ${categoryInfo.color}`,
+          borderTop: `2.5px solid ${categoryInfo.color}`,
           opacity: isDimmed ? 0.22 : 1,
           filter: isDimmed ? "grayscale(70%)" : "none",
-          transition: "all 0.18s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "all 0.16s cubic-bezier(0.4, 0, 0.2, 1)",
           cursor: "pointer",
           position: "relative",
           overflow: "hidden",
           boxShadow: isSelected
-            ? `0 0 16px ${categoryInfo.color}66`
+            ? `0 0 14px ${categoryInfo.color}55`
             : isMatch
-              ? `0 0 10px ${categoryInfo.color}44`
-              : "0 2px 4px rgba(0,0,0,0.3)",
+              ? `0 0 8px ${categoryInfo.color}38`
+              : "0 1px 3px rgba(0,0,0,0.25)",
           "&:hover": {
-            transform: isDimmed ? "none" : "translateY(-3px) scale(1.04)",
+            transform: isDimmed ? "none" : "translateY(-2px) scale(1.03)",
             border: `1px solid ${categoryInfo.borderHover}`,
-            borderTop: `3px solid ${categoryInfo.borderHover}`,
-            boxShadow: `0 8px 24px ${categoryInfo.color}55`,
+            borderTop: `2.5px solid ${categoryInfo.borderHover}`,
+            boxShadow: `0 6px 18px ${categoryInfo.color}45`,
             zIndex: 10,
             opacity: 1,
             filter: "none",
           },
           "&:focus-visible": {
             outline: `2px solid ${categoryInfo.borderHover}`,
-            outlineOffset: "2px",
+            outlineOffset: "1px",
             zIndex: 11,
           },
         }}
@@ -101,10 +101,10 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
           <Typography
             component="span"
             sx={{
-              fontSize: { xs: "0.62rem", sm: "0.7rem" },
+              fontSize: { xs: "0.56rem", sm: "0.62rem" },
               fontWeight: 600,
               color: "text.secondary",
-              letterSpacing: "-0.5px",
+              letterSpacing: "-0.3px",
             }}
           >
             {element.number}
@@ -112,7 +112,7 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
           <Typography
             component="span"
             sx={{
-              fontSize: { xs: "0.55rem", sm: "0.62rem" },
+              fontSize: { xs: "0.48rem", sm: "0.54rem" },
               fontWeight: 500,
               textTransform: "uppercase",
               color: `${categoryInfo.color}dd`,
@@ -129,12 +129,12 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
             component="span"
             sx={{
               display: "block",
-              fontSize: { xs: "1.15rem", sm: "1.35rem", md: "1.5rem" },
+              fontSize: { xs: "1.05rem", sm: "1.18rem", md: "1.28rem" },
               fontWeight: 800,
-              lineHeight: 1.1,
+              lineHeight: 1.05,
               color: isSelected ? "#ffffff" : "text.primary",
               textShadow: isSelected ? `0 0 8px ${categoryInfo.color}` : "none",
-              letterSpacing: "-0.5px",
+              letterSpacing: "-0.4px",
             }}
           >
             {element.symbol}
@@ -148,12 +148,12 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
             noWrap
             sx={{
               display: "block",
-              fontSize: { xs: "0.58rem", sm: "0.65rem" },
+              fontSize: { xs: "0.52rem", sm: "0.58rem" },
               fontWeight: 500,
               color: "text.primary",
               opacity: 0.9,
               letterSpacing: "-0.2px",
-              mb: "1px",
+              mb: "0.5px",
             }}
           >
             {element.name}
@@ -163,9 +163,9 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
             noWrap
             sx={{
               display: "block",
-              fontSize: { xs: "0.52rem", sm: "0.58rem" },
+              fontSize: { xs: "0.46rem", sm: "0.52rem" },
               color: "text.secondary",
-              opacity: 0.75,
+              opacity: 0.72,
               fontWeight: 400,
             }}
           >

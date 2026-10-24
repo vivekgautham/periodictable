@@ -56,8 +56,8 @@ export const ElementInPlaceDetail: React.FC<ElementInPlaceDetailProps> = ({
       sx={{
         width: "100%",
         height: "100%",
-        minHeight: { xs: 560, md: 620 },
-        maxHeight: 740,
+        minHeight: { xs: 500, md: 560 },
+        maxHeight: 670,
         display: "flex",
         flexDirection: "column",
         borderRadius: 3,
