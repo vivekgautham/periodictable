@@ -1,0 +1,24 @@
+default_stages: [pre-commit, pre-push, commit-msg]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        stages: [pre-commit, pre-push]
+      - id: end-of-file-fixer
+        stages: [pre-commit, pre-push]
+      - id: mixed-line-ending
+        stages: [pre-commit, pre-push]
+      - id: check-yaml
+        stages: [pre-commit, pre-push]
+      - id: sort-simple-yaml
+        stages: [pre-commit, pre-push]
+      - id: check-added-large-files
+        stages: [pre-commit, pre-push]
+  - repo: local
+    hooks:
+      - id: commitlint
+        name: commitlint
+        entry: npx --no -- commitlint --edit
+        language: system
+        stages: [commit-msg]
