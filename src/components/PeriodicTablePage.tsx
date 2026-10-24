@@ -9,7 +9,6 @@ import {
   getElementBySymbol,
 } from "../data/elements";
 import { CategoryKey, PeriodicElement } from "../types/element";
-import { ElementDetailModal } from "./ElementDetailModal";
 import { Header } from "./Header";
 import { PeriodicGrid } from "./PeriodicGrid";
 import { TableControls } from "./TableControls";
@@ -101,13 +100,8 @@ export const PeriodicTablePage: React.FC = () => {
           onSelectCategory={(cat) =>
             setActiveCategory((prev) => (prev === cat ? "all" : cat))
           }
-        />
-
-        <ElementDetailModal
-          element={selectedElement}
-          open={Boolean(selectedElement)}
-          onClose={handleCloseModal}
-          onSelectElement={handleSelectElementByNumber}
+          onCloseDetail={handleCloseModal}
+          onSelectElementByNumber={handleSelectElementByNumber}
         />
       </Container>
     </Box>
