@@ -80,7 +80,7 @@ export const PeriodicTablePage: React.FC = () => {
         pb: 8,
       }}
     >
-      <Container maxWidth="xl" sx={{ px: { xs: 1.5, sm: 2.5, md: 3 } }}>
+      <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <Header onRandomElement={handleRandomElement} />
 
         <TableControls
@@ -98,7 +98,9 @@ export const PeriodicTablePage: React.FC = () => {
           activeCategory={activeCategory}
           searchQuery={searchQuery}
           onSelectElement={handleSelectElement}
-          onSelectCategory={(cat) => setActiveCategory(cat)}
+          onSelectCategory={(cat) =>
+            setActiveCategory((prev) => (prev === cat ? "all" : cat))
+          }
         />
 
         <ElementDetailModal

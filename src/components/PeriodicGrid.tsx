@@ -12,7 +12,7 @@ interface PeriodicGridProps {
   activeCategory: CategoryKey | "all";
   searchQuery: string;
   onSelectElement: (element: PeriodicElement) => void;
-  onSelectCategory: (category: CategoryKey) => void;
+  onSelectCategory: (category: CategoryKey | "all") => void;
 }
 
 export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
@@ -23,6 +23,8 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
   onSelectElement,
   onSelectCategory,
 }) => {
+  const isLanthanideActive = activeCategory === "lanthanide";
+  const isActinideActive = activeCategory === "actinide";
   const normalizedQuery = searchQuery.trim().toLowerCase();
 
   const isMatchingSearch = (element: PeriodicElement): boolean => {
@@ -68,9 +70,10 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
         sx={{
           display: "grid",
           gridTemplateColumns: "repeat(18, minmax(64px, 1fr))",
-          gridTemplateRows: "24px repeat(7, auto) 20px repeat(2, auto)",
-          gap: { xs: "4px", sm: "6px" },
-          minWidth: 1240,
+          gridTemplateRows: "26px repeat(7, auto) 28px repeat(2, auto)",
+          columnGap: { xs: "8px", sm: "10px", md: "12px" },
+          rowGap: { xs: "8px", sm: "10px", md: "12px" },
+          minWidth: 1340,
           mx: "auto",
         }}
       >
@@ -123,12 +126,14 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
           );
         })}
 
-        {/* Placeholder: Lanthanides indicator (Row 6, Col 3) */}
+        {/* Placeholder: Lanthanides indicator (Row 7, Col 3 - Period 6) */}
         <ButtonBase
-          onClick={() => onSelectCategory("lanthanide")}
+          onClick={() =>
+            onSelectCategory(isLanthanideActive ? "all" : "lanthanide")
+          }
           sx={{
             gridColumn: 3,
-            gridRow: 6,
+            gridRow: 7,
             height: { xs: 68, sm: 76, md: 82 },
             display: "flex",
             flexDirection: "column",
@@ -136,14 +141,21 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
             justifyContent: "center",
             p: 1,
             borderRadius: "8px",
-            background: CATEGORY_MAP.lanthanide.bgGradient,
-            border: `1px dashed ${CATEGORY_MAP.lanthanide.color}88`,
+            background: isLanthanideActive
+              ? `linear-gradient(135deg, ${CATEGORY_MAP.lanthanide.color}55 0%, ${CATEGORY_MAP.lanthanide.color}25 100%)`
+              : CATEGORY_MAP.lanthanide.bgGradient,
+            border: isLanthanideActive
+              ? `1.5px solid ${CATEGORY_MAP.lanthanide.color}`
+              : `1px dashed ${CATEGORY_MAP.lanthanide.color}88`,
             borderTop: `3px solid ${CATEGORY_MAP.lanthanide.color}`,
             cursor: "pointer",
             transition: "all 0.18s ease",
+            boxShadow: isLanthanideActive
+              ? `0 0 16px ${CATEGORY_MAP.lanthanide.color}66`
+              : "none",
             "&:hover": {
               borderColor: CATEGORY_MAP.lanthanide.borderHover,
-              boxShadow: `0 0 12px ${CATEGORY_MAP.lanthanide.color}44`,
+              boxShadow: `0 0 14px ${CATEGORY_MAP.lanthanide.color}55`,
             },
           }}
         >
@@ -170,12 +182,14 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
           </Typography>
         </ButtonBase>
 
-        {/* Placeholder: Actinides indicator (Row 7, Col 3) */}
+        {/* Placeholder: Actinides indicator (Row 8, Col 3 - Period 7) */}
         <ButtonBase
-          onClick={() => onSelectCategory("actinide")}
+          onClick={() =>
+            onSelectCategory(isActinideActive ? "all" : "actinide")
+          }
           sx={{
             gridColumn: 3,
-            gridRow: 7,
+            gridRow: 8,
             height: { xs: 68, sm: 76, md: 82 },
             display: "flex",
             flexDirection: "column",
@@ -183,14 +197,21 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
             justifyContent: "center",
             p: 1,
             borderRadius: "8px",
-            background: CATEGORY_MAP.actinide.bgGradient,
-            border: `1px dashed ${CATEGORY_MAP.actinide.color}88`,
+            background: isActinideActive
+              ? `linear-gradient(135deg, ${CATEGORY_MAP.actinide.color}55 0%, ${CATEGORY_MAP.actinide.color}25 100%)`
+              : CATEGORY_MAP.actinide.bgGradient,
+            border: isActinideActive
+              ? `1.5px solid ${CATEGORY_MAP.actinide.color}`
+              : `1px dashed ${CATEGORY_MAP.actinide.color}88`,
             borderTop: `3px solid ${CATEGORY_MAP.actinide.color}`,
             cursor: "pointer",
             transition: "all 0.18s ease",
+            boxShadow: isActinideActive
+              ? `0 0 16px ${CATEGORY_MAP.actinide.color}66`
+              : "none",
             "&:hover": {
               borderColor: CATEGORY_MAP.actinide.borderHover,
-              boxShadow: `0 0 12px ${CATEGORY_MAP.actinide.color}44`,
+              boxShadow: `0 0 14px ${CATEGORY_MAP.actinide.color}55`,
             },
           }}
         >
@@ -217,15 +238,43 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
           </Typography>
         </ButtonBase>
 
-        {/* Lanthanide Series Label Row 9, Col 1-2 */}
+        {/* Spacer / subtle divider row between main table and f-block */}
         <Box
           sx={{
-            gridColumn: "1 / span 2",
+            gridColumn: "1 / span 18",
             gridRow: 9,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              height: "1px",
+              background:
+                "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 10%, rgba(255, 255, 255, 0.08) 90%, transparent 100%)",
+            }}
+          />
+        </Box>
+
+        {/* Lanthanide Series Label Row 10, Col 1-2 */}
+        <ButtonBase
+          onClick={() =>
+            onSelectCategory(isLanthanideActive ? "all" : "lanthanide")
+          }
+          sx={{
+            gridColumn: "1 / span 2",
+            gridRow: 10,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
             pr: 1.5,
+            borderRadius: 1.5,
+            transition: "all 0.15s ease",
+            cursor: "pointer",
+            "&:hover": {
+              opacity: 0.8,
+            },
           }}
         >
           <Typography
@@ -235,21 +284,31 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               fontWeight: 700,
               color: CATEGORY_MAP.lanthanide.color,
               letterSpacing: "0.5px",
+              textDecoration: isLanthanideActive ? "underline" : "none",
             }}
           >
             Lanthanides *
           </Typography>
-        </Box>
+        </ButtonBase>
 
-        {/* Actinide Series Label Row 10, Col 1-2 */}
-        <Box
+        {/* Actinide Series Label Row 11, Col 1-2 */}
+        <ButtonBase
+          onClick={() =>
+            onSelectCategory(isActinideActive ? "all" : "actinide")
+          }
           sx={{
             gridColumn: "1 / span 2",
-            gridRow: 10,
+            gridRow: 11,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
             pr: 1.5,
+            borderRadius: 1.5,
+            transition: "all 0.15s ease",
+            cursor: "pointer",
+            "&:hover": {
+              opacity: 0.8,
+            },
           }}
         >
           <Typography
@@ -259,11 +318,12 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               fontWeight: 700,
               color: CATEGORY_MAP.actinide.color,
               letterSpacing: "0.5px",
+              textDecoration: isActinideActive ? "underline" : "none",
             }}
           >
             Actinides **
           </Typography>
-        </Box>
+        </ButtonBase>
       </Box>
     </Box>
   );

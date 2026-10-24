@@ -10,6 +10,8 @@ interface ElementTileProps {
   isSelected?: boolean;
   isDimmed?: boolean;
   isMatch?: boolean;
+  gridRow?: number;
+  gridColumn?: number;
   onClick: (element: PeriodicElement) => void;
 }
 
@@ -19,6 +21,8 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
     isSelected = false,
     isDimmed = false,
     isMatch = false,
+    gridRow,
+    gridColumn,
     onClick,
   }) => {
     const categoryInfo = getCategoryInfo(element.category);
@@ -35,8 +39,8 @@ export const ElementTile: React.FC<ElementTileProps> = React.memo(
         onClick={() => onClick(element)}
         focusRipple
         sx={{
-          gridColumn: element.xpos,
-          gridRow: element.ypos,
+          gridColumn: gridColumn ?? element.xpos,
+          gridRow: gridRow ?? element.ypos + 1,
           width: "100%",
           minWidth: { xs: 58, sm: 66, md: 72 },
           height: { xs: 68, sm: 76, md: 82 },
