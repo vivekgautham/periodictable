@@ -1,3 +1,12 @@
+export interface Isotope {
+  massNumber: number;
+  mass: number | null;
+  abundance: number | null;
+  isStable: boolean;
+  halfLife: string;
+  decayModes: string[];
+}
+
 export interface ElementImage {
   title: string;
   url: string;

@@ -142,8 +142,10 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
             columnGap: { xs: "8px", sm: "10px", md: "12px" },
             rowGap: { xs: "8px", sm: "10px", md: "12px" },
             flex: "1 0 auto",
-            maxWidth: 700,
-            transition: "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+            maxWidth: { xs: 680, md: 740, lg: 780 },
+            mr: selectedElement ? 0 : { xs: "10px", sm: "12px", md: "16px" },
+            transition:
+              "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), margin 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
           {/* Group Numbers 1 to 9 */}
@@ -408,7 +410,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
             transform: selectedElement ? "scale(1)" : "scale(0.92)",
             transition:
               "width 0.45s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), margin 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
-            mx: selectedElement ? { xs: 1, sm: 1.5, md: 2 } : 0,
+            mx: selectedElement ? { xs: 1.5, sm: 2, md: 2.5 } : 0,
             overflow: "hidden",
             pointerEvents: selectedElement ? "auto" : "none",
             alignSelf: "stretch",
@@ -432,7 +434,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
             columnGap: { xs: "8px", sm: "10px", md: "12px" },
             rowGap: { xs: "8px", sm: "10px", md: "12px" },
             flex: "1 0 auto",
-            maxWidth: 700,
+            maxWidth: { xs: 680, md: 740, lg: 780 },
             transition: "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >

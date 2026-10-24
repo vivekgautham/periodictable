@@ -13,8 +13,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { getCategoryInfo } from "../data/categories";
+import { getElementIsotopes } from "../data/elements";
 import { PeriodicElement } from "../types/element";
 
 interface ElementInPlaceDetailProps {
@@ -39,6 +40,15 @@ export const ElementInPlaceDetail: React.FC<ElementInPlaceDetailProps> = ({
 
   const prevNumber = element.number > 1 ? element.number - 1 : null;
   const nextNumber = element.number < 118 ? element.number + 1 : null;
+
+  const isotopes = useMemo(
+    () => getElementIsotopes(element.number),
+    [element.number],
+  );
+  const stableCount = useMemo(
+    () => isotopes.filter((iso) => iso.isStable).length,
+    [isotopes],
+  );
 
   return (
     <Paper
@@ -272,7 +282,7 @@ export const ElementInPlaceDetail: React.FC<ElementInPlaceDetailProps> = ({
           "& .MuiTab-root": {
             minHeight: 38,
             py: 0.75,
-            fontSize: "0.75rem",
+            fontSize: "0.74rem",
             fontWeight: 600,
             textTransform: "none",
             color: "text.secondary",
@@ -287,6 +297,7 @@ export const ElementInPlaceDetail: React.FC<ElementInPlaceDetailProps> = ({
       >
         <Tab label="Overview" />
         <Tab label="Properties" />
+        <Tab label={`Isotopes (${isotopes.length})`} />
         <Tab label="History & Media" />
       </Tabs>
 
