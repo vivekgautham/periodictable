@@ -4,8 +4,10 @@ import rawIsotopes from "./isotopes.json";
 
 export const elements: PeriodicElement[] = rawElements as PeriodicElement[];
 
-export const isotopesMap: Record<string, Isotope[]> =
-  rawIsotopes as Record<string, Isotope[]>;
+export const isotopesMap: Record<string, Isotope[]> = rawIsotopes as Record<
+  string,
+  Isotope[]
+>;
 
 export function getElementIsotopes(atomicNumber: number): Isotope[] {
   return isotopesMap[atomicNumber.toString()] || [];

@@ -605,8 +605,171 @@ export const ElementInPlaceDetail: React.FC<ElementInPlaceDetailProps> = ({
           </Box>
         )}
 
-        {/* Tab 2: History & Media */}
+        {/* Tab 2: Isotopes */}
         {activeTab === 2 && (
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+            <Box
+              sx={{
+                p: 1.25,
+                borderRadius: 2,
+                backgroundColor: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.06)",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="caption" color="text.secondary">
+                {isotopes.length} notable isotope
+                {isotopes.length !== 1 ? "s" : ""}
+              </Typography>
+              <Chip
+                label={
+                  stableCount > 0
+                    ? `${stableCount} Stable`
+                    : "No Stable Isotopes"
+                }
+                size="small"
+                sx={{
+                  height: 20,
+                  fontSize: "0.68rem",
+                  fontWeight: 700,
+                  backgroundColor:
+                    stableCount > 0
+                      ? "rgba(16, 185, 129, 0.15)"
+                      : "rgba(244, 63, 94, 0.15)",
+                  color: stableCount > 0 ? "#34d399" : "#fb7185",
+                  border: `1px solid ${
+                    stableCount > 0
+                      ? "rgba(16, 185, 129, 0.3)"
+                      : "rgba(244, 63, 94, 0.3)"
+                  }`,
+                }}
+              />
+            </Box>
+
+            {isotopes.length === 0 ? (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ textAlign: "center", py: 3 }}
+              >
+                No isotope data available for this element.
+              </Typography>
+            ) : (
+              isotopes.map((iso) => (
+                <Box
+                  key={iso.massNumber}
+                  sx={{
+                    p: 1.25,
+                    borderRadius: 2,
+                    backgroundColor: "rgba(15, 23, 42, 0.5)",
+                    border: "1px solid rgba(255, 255, 255, 0.06)",
+                    transition: "all 0.15s ease",
+                    "&:hover": {
+                      borderColor: "rgba(255, 255, 255, 0.16)",
+                      backgroundColor: "rgba(15, 23, 42, 0.7)",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 0.5,
+                    }}
+                  >
+                    <Box
+                      sx={{ display: "flex", alignItems: "baseline", gap: 1 }}
+                    >
+                      <Typography
+                        variant="body1"
+                        fontWeight={800}
+                        sx={{ color: "#ffffff", fontFamily: "monospace" }}
+                      >
+                        <sup>{iso.massNumber}</sup>
+                        {element.symbol}
+                      </Typography>
+                      {iso.mass && (
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          sx={{ fontSize: "0.72rem" }}
+                        >
+                          {iso.mass} u
+                        </Typography>
+                      )}
+                    </Box>
+
+                    <Chip
+                      label={iso.isStable ? "Stable" : iso.halfLife}
+                      size="small"
+                      sx={{
+                        height: 20,
+                        fontSize: "0.68rem",
+                        fontWeight: 600,
+                        backgroundColor: iso.isStable
+                          ? "rgba(16, 185, 129, 0.15)"
+                          : "rgba(249, 115, 22, 0.15)",
+                        color: iso.isStable ? "#34d399" : "#fb923c",
+                        border: `1px solid ${
+                          iso.isStable
+                            ? "rgba(16, 185, 129, 0.3)"
+                            : "rgba(249, 115, 22, 0.3)"
+                        }`,
+                      }}
+                    />
+                  </Box>
+
+                  {/* Abundance bar or status */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: 0.5,
+                      mt: 0.5,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ fontSize: "0.72rem" }}
+                    >
+                      {iso.abundance !== null && iso.abundance > 0
+                        ? `Natural Abundance: ${iso.abundance}%`
+                        : "Synthetic / Trace"}
+                    </Typography>
+
+                    {iso.decayModes && iso.decayModes.length > 0 && (
+                      <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+                        {iso.decayModes.map((dm, idx) => (
+                          <Chip
+                            key={idx}
+                            label={dm}
+                            size="small"
+                            variant="outlined"
+                            sx={{
+                              height: 18,
+                              fontSize: "0.62rem",
+                              borderColor: "rgba(255, 255, 255, 0.1)",
+                              color: "text.secondary",
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              ))
+            )}
+          </Box>
+        )}
+
+        {/* Tab 3: History & Media */}
+        {activeTab === 3 && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
