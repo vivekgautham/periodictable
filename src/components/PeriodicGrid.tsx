@@ -29,6 +29,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
   onSelectElementByNumber,
 }) => {
   const centerStageRef = useRef<HTMLDivElement>(null);
+  const isCompressed = Boolean(selectedElement);
   const isLanthanideActive = activeCategory === "lanthanide";
   const isActinideActive = activeCategory === "actinide";
   const normalizedQuery = searchQuery.trim().toLowerCase();
@@ -126,33 +127,48 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
       <Box
         sx={{
           display: "flex",
-          width: "max-content",
+          width: isCompressed ? "100%" : "max-content",
           minWidth: "100%",
           boxSizing: "border-box",
-          px: { xs: 2, sm: 3, md: 4 },
+          px: isCompressed
+            ? { xs: 1, sm: 2, md: 2.5 }
+            : { xs: 2, sm: 3, md: 4 },
+          justifyContent: "center",
         }}
       >
         <Box
           sx={{
             display: "flex",
             alignItems: "flex-start",
+            justifyContent: "center",
+            width: isCompressed ? "100%" : "auto",
+            maxWidth: isCompressed ? 1260 : "none",
             margin: "0 auto",
-            transition: "all 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+            transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
           {/* ================= LEFT WING: GROUPS 1 TO 9 ================= */}
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(9, minmax(56px, 1fr))",
-              gridTemplateRows: "24px repeat(7, auto) 24px repeat(2, auto)",
-              columnGap: { xs: "6px", sm: "8px", md: "9px" },
-              rowGap: { xs: "6px", sm: "8px", md: "9px" },
-              flex: "1 0 auto",
-              maxWidth: { xs: 580, md: 640, lg: 680 },
-              mr: selectedElement ? 0 : { xs: "8px", sm: "10px", md: "12px" },
-              transition:
-                "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), margin 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+              gridTemplateColumns: isCompressed
+                ? "repeat(9, minmax(28px, 1fr))"
+                : "repeat(9, minmax(56px, 1fr))",
+              gridTemplateRows: isCompressed
+                ? "18px repeat(7, auto) 18px repeat(2, auto)"
+                : "24px repeat(7, auto) 24px repeat(2, auto)",
+              columnGap: isCompressed
+                ? { xs: "3px", sm: "4px", md: "5px" }
+                : { xs: "6px", sm: "8px", md: "9px" },
+              rowGap: isCompressed
+                ? { xs: "3px", sm: "4px", md: "5px" }
+                : { xs: "6px", sm: "8px", md: "9px" },
+              flex: isCompressed ? "0 1 auto" : "1 0 auto",
+              maxWidth: isCompressed
+                ? { xs: 290, sm: 340, md: 380 }
+                : { xs: 580, md: 640, lg: 680 },
+              mr: isCompressed ? 0 : { xs: "8px", sm: "10px", md: "12px" },
+              transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           >
             {/* Group Numbers 1 to 9 */}
@@ -165,13 +181,13 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  py: 0.25,
+                  py: isCompressed ? 0 : 0.25,
                 }}
               >
                 <Typography
                   variant="caption"
                   sx={{
-                    fontSize: "0.72rem",
+                    fontSize: isCompressed ? "0.58rem" : "0.72rem",
                     fontWeight: 700,
                     color: "text.secondary",
                     opacity: 0.7,
@@ -201,6 +217,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                   isSelected={isSelected}
                   isDimmed={isDimmed}
                   isMatch={isHighlighted}
+                  isCompressed={isCompressed}
                   onClick={handleTileClick}
                 />
               );
@@ -214,12 +231,14 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               sx={{
                 gridColumn: 3,
                 gridRow: 7,
-                height: { xs: 58, sm: 64, md: 70 },
+                height: isCompressed
+                  ? { xs: 38, sm: 44, md: 48 }
+                  : { xs: 58, sm: 64, md: 70 },
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                p: "3px 4px",
+                p: isCompressed ? "1px 2px" : "3px 4px",
                 borderRadius: "6px",
                 background: isLanthanideActive
                   ? `linear-gradient(135deg, ${CATEGORY_MAP.lanthanide.color}55 0%, ${CATEGORY_MAP.lanthanide.color}25 100%)`
@@ -227,7 +246,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                 border: isLanthanideActive
                   ? `1.5px solid ${CATEGORY_MAP.lanthanide.color}`
                   : `1px dashed ${CATEGORY_MAP.lanthanide.color}88`,
-                borderTop: `2.5px solid ${CATEGORY_MAP.lanthanide.color}`,
+                borderTop: `${isCompressed ? "2px" : "2.5px"} solid ${CATEGORY_MAP.lanthanide.color}`,
                 cursor: "pointer",
                 transition: "all 0.16s ease",
                 boxShadow: isLanthanideActive
@@ -242,24 +261,26 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               <Typography
                 variant="caption"
                 sx={{
-                  fontSize: "0.72rem",
+                  fontSize: isCompressed ? "0.62rem" : "0.72rem",
                   fontWeight: 800,
                   color: CATEGORY_MAP.lanthanide.color,
                 }}
               >
                 57–71
               </Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  fontSize: "0.58rem",
-                  color: "text.secondary",
-                  fontWeight: 600,
-                  mt: 0.25,
-                }}
-              >
-                La–Lu
-              </Typography>
+              {!isCompressed && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontSize: "0.58rem",
+                    color: "text.secondary",
+                    fontWeight: 600,
+                    mt: 0.25,
+                  }}
+                >
+                  La–Lu
+                </Typography>
+              )}
             </ButtonBase>
 
             {/* Placeholder: Actinides indicator (Row 8, Col 3 - Period 7) */}
@@ -270,12 +291,14 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               sx={{
                 gridColumn: 3,
                 gridRow: 8,
-                height: { xs: 58, sm: 64, md: 70 },
+                height: isCompressed
+                  ? { xs: 38, sm: 44, md: 48 }
+                  : { xs: 58, sm: 64, md: 70 },
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                p: "3px 4px",
+                p: isCompressed ? "1px 2px" : "3px 4px",
                 borderRadius: "6px",
                 background: isActinideActive
                   ? `linear-gradient(135deg, ${CATEGORY_MAP.actinide.color}55 0%, ${CATEGORY_MAP.actinide.color}25 100%)`
@@ -283,7 +306,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                 border: isActinideActive
                   ? `1.5px solid ${CATEGORY_MAP.actinide.color}`
                   : `1px dashed ${CATEGORY_MAP.actinide.color}88`,
-                borderTop: `2.5px solid ${CATEGORY_MAP.actinide.color}`,
+                borderTop: `${isCompressed ? "2px" : "2.5px"} solid ${CATEGORY_MAP.actinide.color}`,
                 cursor: "pointer",
                 transition: "all 0.16s ease",
                 boxShadow: isActinideActive
@@ -298,24 +321,26 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               <Typography
                 variant="caption"
                 sx={{
-                  fontSize: "0.72rem",
+                  fontSize: isCompressed ? "0.62rem" : "0.72rem",
                   fontWeight: 800,
                   color: CATEGORY_MAP.actinide.color,
                 }}
               >
                 89–103
               </Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  fontSize: "0.58rem",
-                  color: "text.secondary",
-                  fontWeight: 600,
-                  mt: 0.25,
-                }}
-              >
-                Ac–Lr
-              </Typography>
+              {!isCompressed && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontSize: "0.58rem",
+                    color: "text.secondary",
+                    fontWeight: 600,
+                    mt: 0.25,
+                  }}
+                >
+                  Ac–Lr
+                </Typography>
+              )}
             </ButtonBase>
 
             {/* Left Wing Spacer Divider Row 9 */}
@@ -348,7 +373,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                pr: 1.5,
+                pr: isCompressed ? 0.75 : 1.5,
                 borderRadius: 1.5,
                 transition: "all 0.15s ease",
                 cursor: "pointer",
@@ -360,14 +385,15 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               <Typography
                 variant="caption"
                 sx={{
-                  fontSize: "0.75rem",
+                  fontSize: isCompressed ? "0.62rem" : "0.75rem",
                   fontWeight: 700,
                   color: CATEGORY_MAP.lanthanide.color,
                   letterSpacing: "0.5px",
                   textDecoration: isLanthanideActive ? "underline" : "none",
+                  whiteSpace: "nowrap",
                 }}
               >
-                Lanthanides *
+                {isCompressed ? "* 57–71" : "Lanthanides *"}
               </Typography>
             </ButtonBase>
 
@@ -382,7 +408,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                pr: 1.5,
+                pr: isCompressed ? 0.75 : 1.5,
                 borderRadius: 1.5,
                 transition: "all 0.15s ease",
                 cursor: "pointer",
@@ -394,14 +420,15 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
               <Typography
                 variant="caption"
                 sx={{
-                  fontSize: "0.75rem",
+                  fontSize: isCompressed ? "0.62rem" : "0.75rem",
                   fontWeight: 700,
                   color: CATEGORY_MAP.actinide.color,
                   letterSpacing: "0.5px",
                   textDecoration: isActinideActive ? "underline" : "none",
+                  whiteSpace: "nowrap",
                 }}
               >
-                Actinides **
+                {isCompressed ? "** 89–103" : "Actinides **"}
               </Typography>
             </ButtonBase>
           </Box>
@@ -410,14 +437,14 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
           <Box
             ref={centerStageRef}
             sx={{
-              width: selectedElement ? { xs: "100%", md: 450, lg: 490 } : 0,
-              minWidth: selectedElement ? { xs: 300, md: 450, lg: 490 } : 0,
-              maxWidth: { xs: "100%", md: 450, lg: 490 },
+              width: selectedElement ? { xs: "100%", md: 410, lg: 450 } : 0,
+              minWidth: selectedElement ? { xs: 280, md: 380, lg: 410 } : 0,
+              maxWidth: { xs: "100%", md: 430, lg: 460 },
               opacity: selectedElement ? 1 : 0,
               transform: selectedElement ? "scale(1)" : "scale(0.92)",
               transition:
-                "width 0.45s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), margin 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
-              mx: selectedElement ? { xs: 1, sm: 1.5, md: 2 } : 0,
+                "width 0.35s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), margin 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+              mx: selectedElement ? { xs: 0.75, sm: 1.25, md: 1.5 } : 0,
               overflow: "hidden",
               pointerEvents: selectedElement ? "auto" : "none",
               alignSelf: "stretch",
@@ -436,13 +463,23 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(9, minmax(56px, 1fr))",
-              gridTemplateRows: "24px repeat(7, auto) 24px repeat(2, auto)",
-              columnGap: { xs: "6px", sm: "8px", md: "9px" },
-              rowGap: { xs: "6px", sm: "8px", md: "9px" },
-              flex: "1 0 auto",
-              maxWidth: { xs: 580, md: 640, lg: 680 },
-              transition: "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+              gridTemplateColumns: isCompressed
+                ? "repeat(9, minmax(28px, 1fr))"
+                : "repeat(9, minmax(56px, 1fr))",
+              gridTemplateRows: isCompressed
+                ? "18px repeat(7, auto) 18px repeat(2, auto)"
+                : "24px repeat(7, auto) 24px repeat(2, auto)",
+              columnGap: isCompressed
+                ? { xs: "3px", sm: "4px", md: "5px" }
+                : { xs: "6px", sm: "8px", md: "9px" },
+              rowGap: isCompressed
+                ? { xs: "3px", sm: "4px", md: "5px" }
+                : { xs: "6px", sm: "8px", md: "9px" },
+              flex: isCompressed ? "0 1 auto" : "1 0 auto",
+              maxWidth: isCompressed
+                ? { xs: 290, sm: 340, md: 380 }
+                : { xs: 580, md: 640, lg: 680 },
+              transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           >
             {/* Group Numbers 10 to 18 */}
@@ -455,13 +492,13 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  py: 0.25,
+                  py: isCompressed ? 0 : 0.25,
                 }}
               >
                 <Typography
                   variant="caption"
                   sx={{
-                    fontSize: "0.72rem",
+                    fontSize: isCompressed ? "0.58rem" : "0.72rem",
                     fontWeight: 700,
                     color: "text.secondary",
                     opacity: 0.7,
@@ -491,6 +528,7 @@ export const PeriodicGrid: React.FC<PeriodicGridProps> = ({
                   isSelected={isSelected}
                   isDimmed={isDimmed}
                   isMatch={isHighlighted}
+                  isCompressed={isCompressed}
                   onClick={handleTileClick}
                 />
               );
